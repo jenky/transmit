@@ -1,0 +1,65 @@
+{
+    "name": "jenky/transmit",
+    "type": "library",
+    "description": "Laravel HTTP client manager",
+    "keywords": [
+        "laravel",
+        "guzzle",
+        "http",
+        "http client",
+        "http message",
+        "PSR http",
+        "psr-7",
+        "jenky"
+    ],
+    "homepage": "https://github.com/jenky/transmit",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Lynh",
+            "email": "contact@lynh.me",
+            "homepage": "https://github.com/jenky",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^7.2.5|^8.0",
+        "guzzlehttp/guzzle": "^6.3|^7.0",
+        "illuminate/config": "^7.0|^8.0",
+        "illuminate/container": "^7.0|^8.0",
+        "illuminate/http": "^7.0|^8.0"
+    },
+    "require-dev": {
+        "orchestra/testbench": "^5.0|^6.0",
+        "phpunit/phpunit": "^8.0|^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Jenky\\Transmit\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Jenky\\Transmit\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit"
+    },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        },
+        "laravel": {
+            "providers": [
+                "Jenky\\Transmit\\TransmitServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
