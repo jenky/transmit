@@ -99,7 +99,7 @@ class ClientManager implements Transmit
      */
     protected function createCustomFactory(array $config)
     {
-        $factory = is_callable($via = $config['via']) ? $via : new $via;
+        $factory = is_callable($via = $config['via']) ? $via : $this->app->make($via);
 
         return $factory($config);
     }
