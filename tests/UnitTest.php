@@ -19,7 +19,7 @@ class UnitTest extends TestCase
 
     public function test_send_request_from_client()
     {
-        $response = Http::client('httpbin')->get('status/200');
+        $response = dump(Http::client('httpbin'))->get('status/200');
 
         $this->assertTrue($response->ok());
         $this->assertEquals(200, $response->status());
