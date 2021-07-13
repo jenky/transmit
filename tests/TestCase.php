@@ -40,7 +40,7 @@ class TestCase extends BaseTestCase
 
         $config->set('transmit.clients.httpbin', [
             'options' => [
-                'base_uri' => 'https://httpbin.org/',
+                'base_uri' => 'https://httpbin.org',
             ],
             'tap' => [
                 //
@@ -49,7 +49,7 @@ class TestCase extends BaseTestCase
 
         $config->set('transmit.clients.jsonplaceholder', [
             'options' => [
-                'base_uri' => 'https://jsonplaceholder.typicode.com/',
+                'base_uri' => 'https://jsonplaceholder.typicode.com',
             ],
         ]);
     }
