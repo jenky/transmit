@@ -44,7 +44,7 @@ php artisan vendor:publish --provider="Jenky\Transmit\TransmitServiceProvider"
 
 ## Configuration
 
-After publishing Hermes's assets, its primary configuration file will be located at `config/transmit.php`. This configuration file allows you to configure your guzzle client options and each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
+After publishing Transmit's assets, its primary configuration file will be located at `config/transmit.php`. This configuration file allows you to configure your guzzle client options and each configuration option includes a description of its purpose, so be sure to thoroughly explore this file.
 
 ### Client configuration
 
