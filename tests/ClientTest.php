@@ -2,12 +2,13 @@
 
 namespace Jenky\Transmit\Tests;
 
-use Illuminate\Contracts\Events\Dispatcher;
-use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Client\Factory;
+use Illuminate\Http\Client\PendingRequest;
+use Illuminate\Log\Events\MessageLogged;
+use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 
-class FeatureTest extends TestCase
+class ClientTest extends TestCase
 {
     /**
      * Define environment setup.
@@ -19,17 +20,13 @@ class FeatureTest extends TestCase
     {
         parent::getEnvironmentSetUp($app);
 
-        $app['config']->set('transmit.clients.jsonplaceholder', [
+        $app['config']->set('transmit.clients.postman-echo', [
             'options' => [
-                'base_uri' => 'https://jsonplaceholder.typicode.com',
-                'http_errors' => true,
+                'base_uri' => 'https://postman-echo.com/',
             ],
-        ]);
-
-        $app['config']->set('transmit.clients.reqres', [
-            'options' => [
-                'base_uri' => 'https://reqres.in',
-            ],
+            'tap' => [
+                UseLogChannel::class.':daily',
+            ]
         ]);
 
         $app['config']->set('transmit.clients.custom', [
@@ -51,6 +48,14 @@ class FeatureTest extends TestCase
 
         $this->assertEquals('bar', $response->json('headers.X-Foo'));
         $this->assertEquals('application/json', $response->json('headers.Accept'));
+
+        Event::fake();
+
+        $response = Http::client('postman-echo')->post('post');
+
+        Event::assertDispatched(MessageLogged::class);
+
+        $this->assertTrue($response->ok());
     }
 
     public function test_custom_factory()
@@ -70,12 +75,10 @@ class CustomClientFactory extends Factory
     }
 }
 
-// class AddHeaderToRequest
-// {
-//     public function __invoke(HandlerStack $handler, $header, $value)
-//     {
-//         $handler->push(Middleware::mapRequest(function (RequestInterface $request) use ($header, $value) {
-//             return $request->withHeader($header, $value);
-//         }));
-//     }
-// }
+class UseLogChannel
+{
+    public function __invoke(PendingRequest $client, ?string $channel = null)
+    {
+        $client->withLogger(logger()->channel($channel));
+    }
+}

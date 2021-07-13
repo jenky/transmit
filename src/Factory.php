@@ -3,8 +3,25 @@
 namespace Jenky\Transmit;
 
 use Illuminate\Http\Client\Factory as BaseFactory;
+use Jenky\Transmit\Contracts\TapableFactory;
 
-class Factory extends BaseFactory
+class Factory extends BaseFactory implements TapableFactory
 {
-    use CreatesHttpClient;
+    use CreatesFactory;
+    use Tapable;
+
+    /**
+     * Create a new pending request instance for this factory.
+     *
+     * @return \Illuminate\Http\Client\PendingRequest
+     */
+    protected function newPendingRequest()
+    {
+        $request = parent::newPendingRequest()
+            ->withOptions($this->options);
+
+        return tap($request, function ($request) {
+            $this->runCallbacks($request);
+        });
+    }
 }

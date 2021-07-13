@@ -46,5 +46,11 @@ class TestCase extends BaseTestCase
                 //
             ],
         ]);
+
+        $config->set('transmit.clients.jsonplaceholder', [
+            'options' => [
+                'base_uri' => 'https://jsonplaceholder.typicode.com/',
+            ],
+        ]);
     }
 }

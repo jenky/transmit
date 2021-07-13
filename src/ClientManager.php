@@ -6,6 +6,7 @@ use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Support\Str;
 use InvalidArgumentException;
+use Jenky\Transmit\Contracts\TapableFactory;
 use Jenky\Transmit\Contracts\Transmit;
 
 class ClientManager implements Transmit
@@ -122,17 +123,23 @@ class ClientManager implements Transmit
      *
      * @param  string  $name
      * @param  \Illuminate\Http\Client\Factory  $client
-     * @return \GuzzleHttp\HandlerStack
+     * @return \Illuminate\Http\Client\Factory
      */
     protected function tap(string $name, Http $client)
     {
-        foreach ($this->configurationFor($name)['tap'] ?? []  as $tap) {
-            [$class, $arguments] = $this->parseTap($tap);
+        if (! $client instanceof TapableFactory) {
+            return $client;
+        }
 
-            // $this->app->make($class)->__invoke(
-            //     $client, ...array_filter(explode(',', $arguments))
-            // );
-            $this->app->make($class)->__invoke($client, ...explode(',', $arguments));
+        foreach ($this->configurationFor($name)['tap'] ?? []  as $tap) {
+            if (is_callable($tap)) {
+                $client->tap($tap);
+            } else {
+                [$class, $arguments] = $this->parseTap($tap);
+
+                // $this->app->make($class)->__invoke($client, ...explode(',', $arguments));
+                $client->tap($this->app->make($class), ...explode(',', $arguments));
+            }
         }
 
         return $client;

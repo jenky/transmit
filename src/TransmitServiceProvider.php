@@ -4,13 +4,14 @@ namespace Jenky\Transmit;
 
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
+use Illuminate\Contracts\Support\DeferrableProvider;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
 use Jenky\Transmit\Contracts\Transmit;
 use Psr\Log\LoggerInterface;
 
-class TransmitServiceProvider extends ServiceProvider
+class TransmitServiceProvider extends ServiceProvider implements DeferrableProvider
 {
     /**
      * Bootstrap any package services.
@@ -40,6 +41,16 @@ class TransmitServiceProvider extends ServiceProvider
         });
 
         $this->app->alias(Transmit::class, 'transmit');
+    }
+
+    /**
+     * Get the services provided by the provider.
+     *
+     * @return array
+     */
+    public function provides()
+    {
+        return [Transmit::class];
     }
 
     /**
