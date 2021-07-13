@@ -2,7 +2,6 @@
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
 [![Test Status][ico-gh-tests]][link-gh-tests]
-[![Quality Score][ico-code-quality]][link-code-quality]
 [![Codecov][ico-codecov]][link-codecov]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
