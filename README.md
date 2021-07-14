@@ -56,14 +56,12 @@ Set guzzle request options within the channel. Please visit [Request Options](ht
 
 ``` php
 'clients' => [
-
     'github' => [
         'options' => [
             'base_uri' => 'https://api.github.com/v3/',
             'time_out' => 20,
         ],
     ],
-
 ]
 ```
 
