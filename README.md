@@ -55,17 +55,23 @@ A client is simply a HTTP client instance with its own configuration. This allow
 Set guzzle request options within the channel. Please visit [Request Options](http://docs.guzzlephp.org/en/stable/request-options.html) for more information.
 
 ``` php
-'github' => [
-    'options' => [
-        'base_uri' => 'https://api.github.com/v3/',
-        'time_out' => 20,
+'clients' => [
+
+    'github' => [
+        'options' => [
+            'base_uri' => 'https://api.github.com/v3/',
+            'time_out' => 20,
+        ],
     ],
-],
+
+]
 ```
 
 Then uses it in your code:
 
 ``` php
+use Illuminate\Support\Facades\Http;
+
 Http::client('github')->get('....');
 ```
 
