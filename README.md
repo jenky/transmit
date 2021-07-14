@@ -99,7 +99,7 @@ class CustomizeRequest
     /**
      * Customize the given client pending request instance.
      *
-     * @param  \Illuminate\Http\Client\PendingRequest  $client
+     * @param  \Illuminate\Http\Client\PendingRequest  $request
      * @return void
      */
     public function __invoke(PendingRequest $request)
@@ -150,7 +150,7 @@ class UseLogger
     /**
      * Customize the given client pending request instance.
      *
-     * @param  \Illuminate\Http\Client\PendingRequest  $client
+     * @param  \Illuminate\Http\Client\PendingRequest  $request
      * @param  string|null  $channel
      * @param  string  $level
      * @return void
