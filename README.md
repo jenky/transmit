@@ -6,21 +6,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
 
-WIP
-
-- [Transmit](#transmit)
-  - [Install](#install)
-  - [Configuration](#configuration)
-    - [Client configuration](#client-configuration)
-    - [Configure the options](#configure-the-options)
-    - [Customizing the client Pending Request](#customizing-the-client-pending-request)
-      - ["Tap" class parameters](#tap-class-parameters)
-  - [Change log](#change-log)
-  - [Testing](#testing)
-  - [Contributing](#contributing)
-  - [Security](#security)
-  - [Credits](#credits)
-  - [License](#license)
+**WIP**
 
 ## Install
 
