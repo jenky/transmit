@@ -14,11 +14,16 @@ return [
     */
 
     'clients' => [
+
         'default' => [
             'options' => [
                 //
             ],
+            'tap' => [
+
+            ],
         ],
+
     ],
 
 ];
