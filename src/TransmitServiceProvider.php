@@ -80,7 +80,7 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
             return $app[Transmit::class]->client($client);
         });
 
-        PendingRequest::macro('withLogger', function ($logger, $formatter = null) use ($app) {
+        PendingRequest::macro('withLogger', function ($logger, $formatter = null, string $logLevel = 'info') use ($app) {
             if (! $logger) {
                 return $this;
             }
@@ -90,7 +90,7 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
                 : $app['log']->channel($logger);
 
             return $this->withMiddleware(Middleware::log(
-                $logger, $formatter ?: new MessageFormatter(MessageFormatter::DEBUG)
+                $logger, $formatter ?: new MessageFormatter(MessageFormatter::DEBUG), $logLevel
             ));
         });
     }
