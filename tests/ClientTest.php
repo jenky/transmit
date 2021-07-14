@@ -27,6 +27,9 @@ class ClientTest extends TestCase
             ],
             'tap' => [
                 UseLogChannel::class.':daily',
+                function (PendingRequest $request) {
+                    $request->withHeaders(['X-Sample-Header' => 'Lorem ipsum dolor sit amet']);
+                }
             ]
         ]);
 
@@ -53,6 +56,8 @@ class ClientTest extends TestCase
         Event::fake();
 
         $response = Http::client('postman-echo')->post('post');
+
+        $this->assertEquals('Lorem ipsum dolor sit amet', Arr::get($response->json(), 'headers.x-sample-header'));
 
         Event::assertDispatched(MessageLogged::class);
 

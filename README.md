@@ -81,26 +81,26 @@ To get started, define a `tap` array on the channel's configuration. The `tap` a
 ],
 ```
 
-Once you have configured the `tap` option on your client, you're ready to define the class that will customize your client factory instance. This class only needs a single method: `__invoke`, which receives an `Illuminate\Http\Client\Factory` instance.
+Once you have configured the `tap` option on your client, you're ready to define the class that will customize your client factory instance. This class only needs a single method: `__invoke`, which receives an `Illuminate\Http\Client\PendingRequest` instance.
 
 ``` php
 <?php
 
 namespace App\Http\Client;
 
-use Illuminate\Http\Client\Factory;
+use Illuminate\Http\Client\PendingRequest;
 
 class CustomizeRequest
 {
     /**
-     * Customize the given client factory instance.
+     * Customize the given client pending request instance.
      *
-     * @param  \Illuminate\Http\Client\Factory  $client
+     * @param  \Illuminate\Http\Client\PendingRequest  $client
      * @return void
      */
-    public function __invoke(Factory $client)
+    public function __invoke(PendingRequest $request)
     {
-        $client->withToken('my_access_token');
+        $request->withToken('my_access_token');
     }
 }
 ```
@@ -109,9 +109,9 @@ class CustomizeRequest
 
 #### "Tap" class parameters
 
-"Tap" class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `LogMiddleware` class that receives a channel name as an additional argument.
+"Tap" class can also receive additional parameters. For example, if your handler needs to log the Guzzle request and response by using a specific Laravel logger channel, you could create a `UseLogger` class that receives a channel name as an additional argument.
 
-Additional parameters will be passed to the class after the `$client` argument:
+Additional parameters will be passed to the class after the `$request` argument:
 
 ``` php
 <?php
@@ -120,10 +120,10 @@ namespace App\Http\Client;
 
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
-use Illuminate\Http\Client\Factory;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Log\LogManager;
 
-class AttachLogger
+class UseLogger
 {
     /**
      * The logger manager instance.
@@ -144,16 +144,16 @@ class AttachLogger
     }
 
     /**
-     * Customize the given client factory instance.
+     * Customize the given client pending request instance.
      *
-     * @param  \Illuminate\Http\Client\Factory  $client
+     * @param  \Illuminate\Http\Client\PendingRequest  $client
      * @param  string|null  $channel
      * @param  string  $level
      * @return void
      */
-    public function __invoke(Factory $client, ?string $channel = null, string $level = 'debug')
+    public function __invoke(PendingRequest $request, ?string $channel = null, string $level = 'debug')
     {
-        $client->withMiddleware(Middleware::log(
+        $request->withMiddleware(Middleware::log(
             $this->logger->channel($channel), new MessageFormatter, $level
         ));
     }
@@ -163,9 +163,21 @@ class AttachLogger
 "Tap" class parameters may be specified in `transmit` config by separating the class name and parameters with a `:`. Multiple parameters should be delimited by commas:
 
 ``` php
-'default' => [
+'my_client' => [
     'tap' => [
-        App\Http\Client\AttachLogger::class.':slack',
+        App\Http\Client\UseLogger::class.':slack,info',
+    ],
+],
+```
+
+You can also use `closure` if you don't want to use class base method:
+
+``` php
+'my_client' => [
+    'tap' => [
+        function (PendingRequest $request) {
+            $request->asForm();
+        },
     ],
 ],
 ```
