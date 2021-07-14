@@ -17,8 +17,7 @@ class Factory extends BaseFactory implements TapableFactory
      */
     protected function newPendingRequest()
     {
-        $request = parent::newPendingRequest()
-            ->withOptions($this->options);
+        $request = (new PendingRequest($this))->withOptions($this->options);
 
         return tap($request, function ($request) {
             $this->runCallbacks($request);
