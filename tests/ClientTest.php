@@ -5,6 +5,7 @@ namespace Jenky\Transmit\Tests;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Log\Events\MessageLogged;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Event;
 use Illuminate\Support\Facades\Http;
 
@@ -46,8 +47,8 @@ class ClientTest extends TestCase
             ->acceptJson()
             ->get('headers');
 
-        $this->assertEquals('bar', $response->json('headers.X-Foo'));
-        $this->assertEquals('application/json', $response->json('headers.Accept'));
+        $this->assertEquals('bar', Arr::get($response->json(), 'headers.X-Foo'));
+        $this->assertEquals('application/json', Arr::get($response->json(), 'headers.Accept'));
 
         Event::fake();
 
