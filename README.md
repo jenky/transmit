@@ -199,14 +199,14 @@ If you discover any security related issues, please email contact@lynh.me instea
 
 The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
 
-[ico-version]: https://img.shields.io/packagist/v/jenky/transmit.svg
-[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg
-[ico-travis]: https://img.shields.io/travis/com/jenky/transmit/master.svg
-[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/transmit.svg
-[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/transmit.svg
-[ico-downloads]: https://img.shields.io/packagist/dt/jenky/transmit.svg
-[ico-gh-tests]: https://github.com/jenky/transmit/workflows/Tests/badge.svg
-[ico-codecov]: https://codecov.io/gh/jenky/transmit/branch/master/graph/badge.svg
+[ico-version]: https://img.shields.io/packagist/v/jenky/transmit.svg?logo=packagist&style=for-the-badge
+[ico-license]: https://img.shields.io/badge/license-MIT-brightgreen.svg?style=for-the-badge
+[ico-travis]: https://img.shields.io/travis/com/jenky/transmit/master.svg?style=for-the-badge
+[ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/transmit.svg?style=for-the-badge
+[ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/transmit.svg?style=for-the-badge
+[ico-downloads]: https://img.shields.io/packagist/dt/jenky/transmit.svg?style=for-the-badge
+[ico-gh-tests]: https://img.shields.io/github/workflow/status/jenky/transmit/Tests?label=actions&logo=github&style=for-the-badge
+[ico-codecov]: https://img.shields.io/codecov/c/github/jenky/transmit?logo=codecov&style=for-the-badge
 
 [link-packagist]: https://packagist.org/packages/jenky/transmit
 [link-travis]: https://travis-ci.com/jenky/transmit
