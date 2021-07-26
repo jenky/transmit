@@ -40,6 +40,26 @@ class ClientTest extends TestCase
         ]);
     }
 
+    public function test_send_request_from_client()
+    {
+        $response = Http::client('httpbin')->get('status/200');
+
+        $this->assertTrue($response->ok());
+        $this->assertEquals(200, $response->status());
+
+        $response = Http::client('httpbin')->get('status/500');
+
+        $this->assertTrue($response->failed());
+        $this->assertEquals(500, $response->status());
+
+        $response = Http::client('httpbin')
+            ->asJson()
+            ->get('headers');
+
+        $this->assertEquals('application/json', $response->header('content-type'));
+        $this->assertTrue($response->hasHeader('content-type', 'application/json'));
+    }
+
     public function test_tap()
     {
         Http::client('httpbin')->tap(function ($client) {

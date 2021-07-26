@@ -77,7 +77,9 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
         $app = $this->app;
 
         Factory::macro('client', function ($client) use ($app) {
-            return $app[Transmit::class]->client($client);
+            return tap($app[Transmit::class]->client($client), function ($http) {
+                return method_exists($http, 'withStub') ? $http->withStub($this->stubCallbacks) : $http;
+            });
         });
 
         PendingRequest::macro('withLogger', function ($logger, $formatter = null, string $logLevel = 'info') use ($app) {
