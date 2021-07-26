@@ -172,6 +172,27 @@ You can also use `closure` if you don't want to use class base method:
 ],
 ```
 
+## Caveats
+
+### Inspecting faking requests
+
+All the `assert*` methods should be called from HTTP client instance instead of the `Http` facade
+
+```php
+use Illuminate\Http\Client\Request;
+use Illuminate\Support\Facades\Http;
+
+Http::fake();
+
+Http::client('my_client')->assertSent(function (Request $request) {
+    //
+});
+
+Http::client('my_client')->assertNotSent(function (Request $request) {
+    //
+});
+```
+
 ## Change log
 
 Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
