@@ -5,7 +5,7 @@ namespace Jenky\Transmit\Tests;
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Http\Client\Request;
-
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 
@@ -42,6 +42,7 @@ class UnitTest extends TestCase
     {
         $this->assertInstanceOf(Factory::class, transmit()->client('httpbin'));
         $this->assertSame(transmit('httpbin'), Http::client('httpbin'));
+        $this->assertCount(1, transmit()->getClients());
 
         $this->expectException(InvalidArgumentException::class);
         Http::client('foo');

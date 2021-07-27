@@ -41,7 +41,7 @@ class ClientManager implements Transmit
      *
      * @return array
      */
-    public function getClients()
+    public function getClients(): array
     {
         return $this->clients;
     }
@@ -137,7 +137,6 @@ class ClientManager implements Transmit
             } else {
                 [$class, $arguments] = $this->parseTap($tap);
 
-                // $this->app->make($class)->__invoke($client, ...explode(',', $arguments));
                 $client->tap($this->app->make($class), ...explode(',', $arguments));
             }
         }
