@@ -6,7 +6,7 @@
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
 
-**WIP**
+This package allows you to quickly create Http client with pre-defined configurations.
 
 ## Install
 

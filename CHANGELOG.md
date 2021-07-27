@@ -16,7 +16,7 @@ Updates should follow the [Keep a CHANGELOG](http://keepachangelog.com/) princip
 
 ### Fixed -->
 
-<!-- ## [1.0.0](https://github.com/jenky/transmit/tree/1.0.0) - 2019-11-04
+## [1.0.0](https://github.com/jenky/transmit/tree/1.0.0) - 2021-07-27
 
 ### Added
-- Initial release. -->
+- Initial release.
