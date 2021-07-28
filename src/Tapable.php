@@ -11,7 +11,7 @@ trait Tapable
      *
      * @var array
      */
-    protected static $callbacks = [];
+    protected $callbacks = [];
 
     /**
      * Set the callback to tap into the HTTP client.
@@ -22,7 +22,7 @@ trait Tapable
      */
     public function tap(callable $callback, ...$parameters)
     {
-        static::$callbacks[] = [$callback, $parameters];
+        $this->callbacks[] = [$callback, $parameters];
 
         return $this;
     }
@@ -35,7 +35,7 @@ trait Tapable
      */
     protected function runCallbacks(PendingRequest $request)
     {
-        collect(static::$callbacks)->each(function ($item) use ($request) {
+        collect($this->callbacks)->each(function ($item) use ($request) {
             [$callback, $parameters] = $item;
 
             $callback($request, ...$parameters);
