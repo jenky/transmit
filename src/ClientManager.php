@@ -109,8 +109,6 @@ class ClientManager implements Transmit
      * Create a default HTTP client factory instance.
      *
      * @param  array  $config
-     * @throws \InvalidArgumentException
-     * @throws \Illuminate\Contracts\Container\BindingResolutionException
      * @return \Jenky\Transmit\Factory
      */
     public function createFactory(array $config)
