@@ -30,6 +30,7 @@
         "illuminate/http": "^7.0|^8.0"
     },
     "require-dev": {
+        "friendsofphp/php-cs-fixer": "^3.0",
         "orchestra/testbench": "^5.0|^6.0",
         "phpunit/phpunit": "^8.0|^9.0"
     },
@@ -47,7 +48,8 @@
         }
     },
     "scripts": {
-        "test": "vendor/bin/phpunit"
+        "test": "vendor/bin/phpunit",
+        "cs-fix": "vendor/bin/php-cs-fixer fix"
     },
     "extra": {
         "branch-alias": {

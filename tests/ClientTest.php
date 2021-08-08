@@ -29,8 +29,8 @@ class ClientTest extends TestCase
                 UseLogChannel::class.':daily',
                 function (PendingRequest $request) {
                     $request->withHeaders(['X-Sample-Header' => 'Lorem ipsum dolor sit amet']);
-                }
-            ]
+                },
+            ],
         ]);
 
         $app['config']->set('transmit.clients.custom', [

@@ -9,6 +9,7 @@ use Jenky\Transmit\Contracts\TapableFactory;
 class Factory extends BaseFactory implements TapableFactory
 {
     use CreatesFactory;
+
     use Tapable;
 
     /**

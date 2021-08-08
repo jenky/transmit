@@ -4,8 +4,6 @@ namespace Jenky\Transmit\Tests;
 
 use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
-use Illuminate\Http\Client\Request;
-use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Http;
 use InvalidArgumentException;
 
@@ -25,16 +23,16 @@ class UnitTest extends TestCase
             'tap' => [
                 function (PendingRequest $request) {
                     $request->baseUrl('http://localhost/status/');
-                }
-            ]
+                },
+            ],
         ]);
 
         $app['config']->set('transmit.clients.postman-echo', [
             'tap' => [
                 function (PendingRequest $request) {
                     $request->baseUrl('https://postman-echo.com/status/');
-                }
-            ]
+                },
+            ],
         ]);
     }
 
