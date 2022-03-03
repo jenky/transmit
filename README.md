@@ -1,7 +1,7 @@
 # Transmit
 
 [![Latest Version on Packagist][ico-version]][link-packagist]
-[![Test Status][ico-gh-tests]][link-gh-tests]
+[![Test Status][ico-gh-actions]][link-gh-actions]
 [![Codecov][ico-codecov]][link-codecov]
 [![Total Downloads][ico-downloads]][link-downloads]
 [![Software License][ico-license]](LICENSE.md)
@@ -228,7 +228,7 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [ico-scrutinizer]: https://img.shields.io/scrutinizer/coverage/g/jenky/transmit.svg?style=for-the-badge
 [ico-code-quality]: https://img.shields.io/scrutinizer/g/jenky/transmit.svg?style=for-the-badge
 [ico-downloads]: https://img.shields.io/packagist/dt/jenky/transmit.svg?style=for-the-badge
-[ico-gh-tests]: https://img.shields.io/github/workflow/status/jenky/transmit/Tests?label=actions&logo=github&style=for-the-badge
+[ico-gh-actions]: https://img.shields.io/github/workflow/status/jenky/transmit/Tests?label=actions&logo=github&style=for-the-badge
 [ico-codecov]: https://img.shields.io/codecov/c/github/jenky/transmit?logo=codecov&style=for-the-badge
 
 [link-packagist]: https://packagist.org/packages/jenky/transmit
@@ -238,5 +238,5 @@ The MIT License (MIT). Please see [License File](LICENSE.md) for more informatio
 [link-downloads]: https://packagist.org/packages/jenky/transmit
 [link-author]: https://github.com/jenky
 [link-contributors]: ../../contributors
-[link-gh-tests]: https://github.com/jenky/transmit/actions
+[link-gh-actions]: https://github.com/jenky/transmit/actions
 [link-codecov]: https://codecov.io/gh/jenky/transmit
