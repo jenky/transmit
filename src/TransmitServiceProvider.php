@@ -5,10 +5,9 @@ namespace Jenky\Transmit;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Illuminate\Contracts\Support\DeferrableProvider;
-use Illuminate\Http\Client\Factory;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
-use Jenky\Transmit\Contracts\Transmit;
+use Jenky\Transmit\Contracts\HttpClient;
 use Psr\Log\LoggerInterface;
 
 class TransmitServiceProvider extends ServiceProvider implements DeferrableProvider
@@ -36,11 +35,11 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
             __DIR__.'/../config/transmit.php', 'transmit'
         );
 
-        $this->app->singleton(Transmit::class, function ($app) {
-            return new ClientManager($app);
+        $this->app->singleton(HttpClient::class, function ($app) {
+            return new ScopingHttpClient($app);
         });
 
-        $this->app->alias(Transmit::class, 'transmit');
+        $this->app->alias(HttpClient::class, 'transmit');
     }
 
     /**
@@ -50,7 +49,7 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
      */
     public function provides()
     {
-        return [Transmit::class];
+        return [HttpClient::class];
     }
 
     /**
@@ -58,7 +57,7 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
      *
      * @return void
      */
-    protected function registerPublishing()
+    protected function registerPublishing(): void
     {
         if ($this->app->runningInConsole()) {
             $this->publishes([
@@ -72,15 +71,9 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
      *
      * @return void
      */
-    protected function registerHttpClientMacros()
+    protected function registerHttpClientMacros(): void
     {
         $app = $this->app;
-
-        Factory::macro('client', function ($client) use ($app) {
-            return tap($app[Transmit::class]->client($client), function ($http) {
-                return method_exists($http, 'withStub') ? $http->withStub($this->stubCallbacks) : $http;
-            });
-        });
 
         PendingRequest::macro('withLogger', function ($logger, $formatter = null, string $logLevel = 'info') use ($app) {
             if (! $logger) {

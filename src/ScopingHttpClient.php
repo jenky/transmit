@@ -5,12 +5,17 @@ namespace Jenky\Transmit;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Support\Str;
+use Illuminate\Support\Traits\ForwardsCalls;
 use InvalidArgumentException;
+use Jenky\Transmit\Contracts\HttpClient;
 use Jenky\Transmit\Contracts\TapableFactory;
-use Jenky\Transmit\Contracts\Transmit;
 
-class ClientManager implements Transmit
+class ScopingHttpClient implements HttpClient
 {
+    use ForwardsCalls;
+
+    public static $scopedOptions = [];
+
     /**
      * The application instance.
      *
@@ -19,7 +24,7 @@ class ClientManager implements Transmit
     protected $app;
 
     /**
-     * The array of resolved channels.
+     * The array of scoped clients.
      *
      * @var array
      */
@@ -34,6 +39,8 @@ class ClientManager implements Transmit
     public function __construct(Application $app)
     {
         $this->app = $app;
+
+        static::$scopedOptions = $app->make('config')->get('transmit.clients', []);
     }
 
     /**
@@ -50,9 +57,9 @@ class ClientManager implements Transmit
      * Attempt to get the client from the local cache.
      *
      * @param  string  $name
-     * @return \Illuminate\Http\Client\Factory
+     * @return \Jenky\Transmit\Factory
      */
-    public function client($name): Http
+    public function scope($name): Factory
     {
         return $this->clients[$name] ?? tap($this->resolve($name), function ($client) use ($name) {
             return $this->clients[$name] = $this->tap($name, $client);
@@ -71,7 +78,7 @@ class ClientManager implements Transmit
     }
 
     /**
-     * Resolve the given log instance by name.
+     * Resolve the given scoped client instance by name.
      *
      * @param  string  $name
      * @throws \InvalidArgumentException
@@ -111,7 +118,7 @@ class ClientManager implements Transmit
      * @param  array  $config
      * @return \Jenky\Transmit\Factory
      */
-    public function createFactory(array $config)
+    public function createFactory(array $config): Factory
     {
         return new Factory($this->app, $config['options'] ?? []);
     }
@@ -123,7 +130,7 @@ class ClientManager implements Transmit
      * @param  \Illuminate\Http\Client\Factory  $client
      * @return \Illuminate\Http\Client\Factory
      */
-    protected function tap(string $name, Http $client)
+    protected function tap(string $name, Http $client): Http
     {
         if (! $client instanceof TapableFactory) {
             return $client;
@@ -151,5 +158,12 @@ class ClientManager implements Transmit
     protected function parseTap($tap)
     {
         return Str::contains($tap, ':') ? explode(':', $tap, 2) : [$tap, ''];
+    }
+
+    public function __call($method, $parameters)
+    {
+        return $this->forwardCallTo(
+            $this->createFactory([]), $method, $parameters
+        );
     }
 }

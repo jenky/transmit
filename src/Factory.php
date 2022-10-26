@@ -8,9 +8,28 @@ use Jenky\Transmit\Contracts\TapableFactory;
 
 class Factory extends BaseFactory implements TapableFactory
 {
-    use CreatesFactory;
-
     use Tapable;
+
+    /**
+     * The client options.
+     *
+     * @var array
+     */
+    protected $options = [];
+
+    /**
+     * Crate new factory instance.
+     *
+     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  array  $options
+     * @return void
+     */
+    public function __construct(Application $app, array $options = [])
+    {
+        $this->options = $options;
+
+        parent::__construct($app[Dispatcher::class]);
+    }
 
     /**
      * Create a new pending request instance for this factory.

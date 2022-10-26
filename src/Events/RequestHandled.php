@@ -12,21 +12,21 @@ class RequestHandled
      *
      * @var \Psr\Http\Message\RequestInterface
      */
-    public $request;
+    public RequestInterface $request;
 
     /**
      * The response instance.
      *
      * @var \Psr\Http\Message\ResponseInterface|null
      */
-    public $response;
+    public ?ResponseInterface $response;
 
     /**
      * The request options.
      *
      * @var array
      */
-    public $options = [];
+    public array $options = [];
 
     /**
      * Create a new event instance.
