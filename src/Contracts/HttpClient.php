@@ -3,7 +3,6 @@
 namespace Jenky\Transmit\Contracts;
 
 use Illuminate\Http\Client\Factory;
-use Psr\Http\Client\ClientInterface;
 
 interface HttpClient
 {
