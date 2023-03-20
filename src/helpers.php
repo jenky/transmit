@@ -11,6 +11,6 @@ if (! function_exists('transmit')) {
      */
     function transmit($client = null)
     {
-        return $client ? app(HttpClient::class)->client($client) : app(HttpClient::class);
+        return $client ? app(HttpClient::class)->scope($client) : app(HttpClient::class);
     }
 }

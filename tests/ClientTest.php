@@ -42,17 +42,17 @@ class ClientTest extends TestCase
 
     public function test_send_request_from_client()
     {
-        $response = Http::client('httpbin')->get('status/200');
+        $response = Http::scope('httpbin')->get('status/200');
 
         $this->assertTrue($response->ok());
         $this->assertEquals(200, $response->status());
 
-        $response = Http::client('httpbin')->get('status/500');
+        $response = Http::scope('httpbin')->get('status/500');
 
         $this->assertTrue($response->failed());
         $this->assertEquals(500, $response->status());
 
-        $response = Http::client('httpbin')
+        $response = Http::scope('httpbin')
             ->asJson()
             ->get('headers');
 
@@ -62,11 +62,11 @@ class ClientTest extends TestCase
 
     public function test_tap()
     {
-        Http::client('httpbin')->tap(function ($client) {
+        Http::scope('httpbin')->tap(function ($client) {
             $client->withHeaders(['X-Foo' => 'bar']);
         });
 
-        $response = Http::client('httpbin')
+        $response = Http::scope('httpbin')
             ->acceptJson()
             ->get('headers');
 
@@ -75,7 +75,7 @@ class ClientTest extends TestCase
 
         Event::fake();
 
-        $response = Http::client('postman-echo')->post('post');
+        $response = Http::scope('postman-echo')->post('post');
 
         $this->assertEquals('Lorem ipsum dolor sit amet', Arr::get($response->json(), 'headers.x-sample-header'));
 
@@ -86,7 +86,7 @@ class ClientTest extends TestCase
 
     public function test_custom_factory()
     {
-        $response = Http::client('custom')->echo();
+        $response = Http::scope('custom')->echo();
 
         $this->assertTrue($response->ok());
         $this->assertEquals('https://postman-echo.com/get', $response['url']);

@@ -2,6 +2,7 @@
 
 namespace Jenky\Transmit;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Support\Str;
@@ -10,10 +11,16 @@ use InvalidArgumentException;
 use Jenky\Transmit\Contracts\HttpClient;
 use Jenky\Transmit\Contracts\TapableFactory;
 
+/**
+ * @mixin \Illuminate\Http\Client\Factory
+ */
 class ScopingHttpClient implements HttpClient
 {
     use ForwardsCalls;
 
+    /**
+     * @var array
+     */
     public static $scopedOptions = [];
 
     /**
@@ -59,7 +66,7 @@ class ScopingHttpClient implements HttpClient
      * @param  string  $name
      * @return \Jenky\Transmit\Factory
      */
-    public function scope($name): Factory
+    public function scope(string $name): Factory
     {
         return $this->clients[$name] ?? tap($this->resolve($name), function ($client) use ($name) {
             return $this->clients[$name] = $this->tap($name, $client);
@@ -72,7 +79,7 @@ class ScopingHttpClient implements HttpClient
      * @param  string  $name
      * @return array
      */
-    protected function configurationFor($name): array
+    protected function configurationFor(string $name): array
     {
         return $this->app['config']["transmit.clients.{$name}"] ?? [];
     }
@@ -84,7 +91,7 @@ class ScopingHttpClient implements HttpClient
      * @throws \InvalidArgumentException
      * @return \Illuminate\Http\Client\Factory
      */
-    protected function resolve($name): Http
+    protected function resolve(string $name): Http
     {
         $config = $this->configurationFor($name);
 
@@ -105,7 +112,7 @@ class ScopingHttpClient implements HttpClient
      * @param  array  $config
      * @return \Illuminate\Http\Client\Factory
      */
-    protected function createCustomFactory(array $config)
+    protected function createCustomFactory(array $config): Http
     {
         $factory = is_callable($via = $config['via']) ? $via : $this->app->make($via);
 
@@ -120,7 +127,9 @@ class ScopingHttpClient implements HttpClient
      */
     public function createFactory(array $config): Factory
     {
-        return new Factory($this->app, $config['options'] ?? []);
+        return new Factory(
+            $this->app[Dispatcher::class], $config['options'] ?? []
+        );
     }
 
     /**
@@ -155,11 +164,18 @@ class ScopingHttpClient implements HttpClient
      * @param  string  $tap
      * @return array
      */
-    protected function parseTap($tap)
+    protected function parseTap(string $tap)
     {
         return Str::contains($tap, ':') ? explode(':', $tap, 2) : [$tap, ''];
     }
 
+    /**
+     * Execute a method against a new factory instance.
+     *
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return mixed
+     */
     public function __call($method, $parameters)
     {
         return $this->forwardCallTo(

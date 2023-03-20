@@ -2,6 +2,7 @@
 
 namespace Jenky\Transmit;
 
+use Illuminate\Contracts\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Illuminate\Http\Client\Factory as BaseFactory;
 use Jenky\Transmit\Contracts\TapableFactory;
@@ -20,15 +21,15 @@ class Factory extends BaseFactory implements TapableFactory
     /**
      * Crate new factory instance.
      *
-     * @param  \Illuminate\Contracts\Foundation\Application  $app
+     * @param  \Illuminate\Contracts\Events\Dispatcher|null  $dispatcher
      * @param  array  $options
      * @return void
      */
-    public function __construct(Application $app, array $options = [])
+    public function __construct(Dispatcher $dispatcher = null, array $options = [])
     {
         $this->options = $options;
 
-        parent::__construct($app[Dispatcher::class]);
+        parent::__construct($dispatcher);
     }
 
     /**

@@ -5,6 +5,7 @@ namespace Jenky\Transmit;
 use GuzzleHttp\MessageFormatter;
 use GuzzleHttp\Middleware;
 use Illuminate\Contracts\Support\DeferrableProvider;
+use Illuminate\Http\Client\Factory as Http;
 use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\ServiceProvider;
 use Jenky\Transmit\Contracts\HttpClient;
@@ -74,6 +75,10 @@ class TransmitServiceProvider extends ServiceProvider implements DeferrableProvi
     protected function registerHttpClientMacros(): void
     {
         $app = $this->app;
+
+        Http::macro('scope', function (string $name = null) use ($app) {
+            return $name ? $app[HttpClient::class]->scope($name) : $app[HttpClient::class];
+        });
 
         PendingRequest::macro('withLogger', function ($logger, $formatter = null, string $logLevel = 'info') use ($app) {
             if (! $logger) {
